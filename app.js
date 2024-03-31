@@ -1,26 +1,44 @@
-let rps = ["rock", "papper", "scissors"];
+let rps = [
+    {
+        value: "rock",
+        winsAgainst: "scissors",
+        loosesAgainst: "papper"
+    },
+    {
+        value: "papper",
+        winsAgainst: "rock",
+        loosesAgainst: "scissors"
+    },
+    {
+        value: "scissors",
+        winsAgainst: "papper",
+        loosesAgainst: "rock"
+    },
+]
 
-function rock(opponent) {
+function clickHandler(event) {
+    let random = Math.floor(Math.random() * 3);
+    let opponentsChoice = rps[random];
+    let usersChoice = rps.filter(function(item){ return item.value === event.currentTarget.value })[0];
 
-    console.log("you clicked rock")
+    console.log("you clicked " + event.currentTarget.value)
+    console.log("opponent clicked " + opponentsChoice.value);
 
-    console.log(opponent)
+    whoWins(opponentsChoice, usersChoice)
+}
 
-    if(opponent === rps[0]) {
-        document.getElementById("message").innerHTML = "Go again!";
+function whoWins(opponentsChoice, usersChoice) {
+    if(opponentsChoice === usersChoice){
+        document.getElementById("message").innerHTML = "It's a tie! Go again!";
+    } else {
+        if(usersChoice.winsAgainst === opponentsChoice.value){
+            document.getElementById("message").innerHTML = "You won!!";
+        } else {
+            document.getElementById("message").innerHTML = "You lost!!";
+        }
     }
 }
 
-function papper() {
-}
-
-function scissors() {
-}
-
-function game() {
-    let random = Math.floor(Math.random() * 3);
-    let opponent = rps[random];
-    console.log(opponent);
-}
-
-game();
+document.querySelector("#rock").addEventListener("click", clickHandler);
+document.querySelector("#scissors").addEventListener("click", clickHandler);
+document.querySelector("#papper").addEventListener("click", clickHandler);
